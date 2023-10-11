@@ -252,7 +252,14 @@ def to_ascii_json(string):
     """Convert string to ASCII JSON"""
     return json.dumps(string, ensure_ascii=False)
 
+def base64_decode_hex(string):
+    """Convert base64 encoded string to hex string"""
+    return base64.b64decode(string).hex()
 
+def base64_encode_hex(string):
+    """Convert base64 encoded string to hex string"""
+    return base64.b64encode(bytes.fromhex(string)).decode()
+    
 
 def init(*args):
     """Initialize filters"""
@@ -293,6 +300,8 @@ def init(*args):
     env.globals["ternary"] = ternary
     env.globals["shuffle"] = shuffle
     env.globals["to_ascii_json"] = to_ascii_json
+    env.globals["base64_decode_hex"] = base64_decode_hex
+    env.globals["base64_encode_hex"] = base64_encode_hex
     return env
 
 
@@ -333,6 +342,8 @@ template._NO_HASS_ENV.globals["reach"] = reach
 template._NO_HASS_ENV.globals["ternary"] = ternary
 template._NO_HASS_ENV.globals["shuffle"] = shuffle
 template._NO_HASS_ENV.globals["to_ascii_json"] = to_ascii_json
+template._NO_HASS_ENV.globals["base64_decode_hex"] = base64_decode_hex
+template._NO_HASS_ENV.globals["base64_encode_hex"] = base64_encode_hex
 
 
 async def async_setup(hass, hass_config):
@@ -355,4 +366,6 @@ async def async_setup(hass, hass_config):
     tpl._env.globals = ternary
     tpl._env.globals = shuffle
     tpl._env.globals = to_ascii_json
+    tpl._env.globals = base64_decode_hex
+    tpl._env.globals = base64_encode_hex
     return True
